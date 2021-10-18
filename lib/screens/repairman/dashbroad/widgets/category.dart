@@ -21,6 +21,7 @@ class CategogyCard extends StatelessWidget {
                   'Loại thiết bị',
                   style: h5.copyWith(
                     color: Colors.black87,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -32,6 +33,8 @@ class CategogyCard extends StatelessWidget {
                         'Xem tất cả',
                         style: h5.copyWith(
                           color: primaryColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Padding(
@@ -66,7 +69,11 @@ class CategogyCard extends StatelessWidget {
                   Category(
                     categoryName: 'Tủ Lạnh',
                     icon: iconPath + fridgeIconSvg,
-                  )
+                  ),
+                  Category(
+                    categoryName: 'Máy giặt',
+                    icon: iconPath + washingMachineIconSvg,
+                  ),
                 ],
               ),
             ),
@@ -93,8 +100,8 @@ class Category extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-        height: 80,
-        width: 110,
+        height: 60,
+        width: 75,
         decoration: BoxDecoration(
           color: isSelected ? primaryColor : Colors.white,
           boxShadow: [
@@ -111,8 +118,8 @@ class Category extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               SizedBox(
-                height: 42,
-                width: 42,
+                height: 32,
+                width: 32,
                 child: SvgPicture.asset(
                   icon,
                   color: isSelected ? Colors.white : primaryColor,
@@ -122,7 +129,7 @@ class Category extends StatelessWidget {
                 categoryName,
                 style: h5.copyWith(
                   color: isSelected ? Colors.white : primaryColor,
-                  fontSize: 15,
+                  fontSize: 13,
                   height: 1.5,
                 ),
               )

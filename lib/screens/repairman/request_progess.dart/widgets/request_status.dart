@@ -20,7 +20,7 @@ class RequestStatus extends StatelessWidget {
             ),
             orderStatusDetail(
               statusTitle: 'Thợ sửa chữa chấp thuận yêu cầu và đang đến',
-              statusValue: false,
+              statusValue: true,
               statusStep: 2,
               isLastStatus: false,
             ),

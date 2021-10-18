@@ -1,8 +1,8 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
-import 'package:elect_repair/screens/repairman/request_detail.dart/widgets/top_navigation_bar.dart';
-import 'package:elect_repair/screens/repairman/request_progess.dart/request_detail.dart';
-import 'package:elect_repair/widgets/bottom_navigation_bar_admin.dart';
+import 'package:elect_repair/screens/customer/request_detail/widgets/request_status.dart';
+import 'package:elect_repair/screens/customer/request_detail/widgets/top_navigation_bar.dart';
+import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
@@ -92,46 +92,44 @@ class _RequestDetailState extends State<RequestDetail> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 3,
-                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Trạng thái: ',
+                                    'Thợ sửa chữa: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
+                                      height: 1.5,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    'Đang chờ người sửa chữa chấp thuận \nyêu cầu',
+                                    'Lê Thị Bưởi',
                                     style: h6.copyWith(
                                       color: Colors.black,
+                                      height: 1.5,
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 3,
-                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Địa chỉ: ',
+                                    'Thời gian nhận sửa chữa: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
+                                      height: 1.5,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    '(3km) Số AB1 / đường C23, khu Công \nNghệ Cao, phường Tân Phú, thành phố \nThủ Đức, thành phố Hồ Chí Minh',
+                                    '20:17 - 18/10/2021',
                                     style: h6.copyWith(
                                       color: Colors.black,
+                                      height: 1.5,
                                     ),
                                   ),
                                 ],
@@ -139,13 +137,23 @@ class _RequestDetailState extends State<RequestDetail> {
                             ],
                           ),
                         ),
+                        //!Trạng thái yêu cầu
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, bottom: 10, left: 15),
+                          child: Text(
+                            'Trạng thái yêu cầu',
+                            style: h5.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const RequestStatus(),
                         //!Bản đồ
                         Center(
                           child: InkWell(
                             onTap: () => setState(() => isShowMap = !isShowMap),
                             child: Container(
                               height: 40,
-                              width: 280,
+                              width: 260,
                               margin: const EdgeInsets.only(top: 15, bottom: 5),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -164,8 +172,8 @@ class _RequestDetailState extends State<RequestDetail> {
                                 children: [
                                   Text(
                                     isShowMap
-                                        ? 'Ẩn đường đi đến nơi sửa chữa  '
-                                        : 'Xem đường đi đến nơi sửa chữa  ',
+                                        ? 'Ẩn hành trình của thợ sửa chữa  '
+                                        : 'Xem hành trình của thợ sửa chữa  ',
                                     style: h6.copyWith(
                                       color: Colors.black54,
                                     ),
@@ -213,7 +221,40 @@ class _RequestDetailState extends State<RequestDetail> {
                             ),
                           ),
                         ),
-
+                        Visibility(
+                          visible: isShowMap,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 30,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: TextFormField(
+                              minLines: 2,
+                              maxLines: 5,
+                              keyboardType: TextInputType.multiline,
+                              style: h6,
+                              initialValue:
+                                  'Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức, thành phố Hồ Chí Minh',
+                              decoration: InputDecoration(
+                                label: Text(
+                                  'Địa chỉ sửa chữa thiết bị',
+                                  style: h5.copyWith(
+                                    color: lightGrey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                hintText: 'Địa chỉ sửa chữa thiết bị',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         //!Thiết bị và vấn đề
                         Padding(
                           padding: const EdgeInsets.only(
@@ -361,48 +402,11 @@ class _RequestDetailState extends State<RequestDetail> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 70,
+                              )
                             ],
                           ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 20,
-                            ),
-                            child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const RequestProgress(),
-                                ),
-                              ),
-                              child: Container(
-                                height: 40,
-                                width: 300,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.7),
-                                      offset: Offset.zero,
-                                      blurRadius: 3,
-                                    )
-                                  ],
-                                ),
-                                child: Text(
-                                  'Chấp thuận yêu cầu sửa chữa',
-                                  style: h5.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 70,
                         ),
                       ],
                     ),
@@ -411,8 +415,7 @@ class _RequestDetailState extends State<RequestDetail> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavigationAdmin()),
+                alignment: Alignment.bottomCenter, child: BottomNavigation()),
             Align(
               alignment: Alignment.bottomRight,
               child: CircleIconButton(

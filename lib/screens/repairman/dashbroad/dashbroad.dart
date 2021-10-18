@@ -1,6 +1,7 @@
 import 'package:elect_repair/screens/repairman/dashbroad/widgets/category.dart';
-import 'package:elect_repair/screens/repairman/dashbroad/widgets/recent_request.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/widgets/request.dart';
 import 'package:elect_repair/screens/repairman/dashbroad/widgets/top_navigation_bar.dart';
+import 'package:elect_repair/widgets/bottom_navigation_bar_admin.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -24,12 +25,16 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
+                  children: const [
+                    SizedBox(
                       height: 20,
                     ),
                     CategogyCard(),
-                    RecentRequest(),
+                    Expanded(
+                      flex: 1,
+                      child: RequestContainer(),
+                    ),
+                    BottomNavigationAdmin(),
                   ],
                 ),
               ),

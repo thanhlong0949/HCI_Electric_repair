@@ -1,7 +1,7 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
 import 'package:elect_repair/screens/customer/request/widgets/top_navigation_bar.dart';
-import 'package:elect_repair/screens/customer/request_detail.dart/request_detail.dart';
+import 'package:elect_repair/screens/customer/request_detail/request_detail.dart';
 import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 

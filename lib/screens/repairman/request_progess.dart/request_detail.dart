@@ -1,19 +1,19 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
-import 'package:elect_repair/screens/customer/request_detail.dart/widgets/request_status.dart';
-import 'package:elect_repair/screens/customer/request_detail.dart/widgets/top_navigation_bar.dart';
-import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
+import 'package:elect_repair/screens/repairman/request_progess.dart/widgets/request_status.dart';
+import 'package:elect_repair/screens/repairman/request_progess.dart/widgets/top_navigation_bar.dart';
+import 'package:elect_repair/widgets/bottom_navigation_bar_admin.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
-class RequestDetail extends StatefulWidget {
-  const RequestDetail({Key? key}) : super(key: key);
+class RequestProgress extends StatefulWidget {
+  const RequestProgress({Key? key}) : super(key: key);
 
   @override
-  State<RequestDetail> createState() => _RequestDetailState();
+  State<RequestProgress> createState() => _RequestProgressState();
 }
 
-class _RequestDetailState extends State<RequestDetail> {
+class _RequestProgressState extends State<RequestProgress> {
   bool isShowMap = false;
 
   @override
@@ -172,8 +172,8 @@ class _RequestDetailState extends State<RequestDetail> {
                                 children: [
                                   Text(
                                     isShowMap
-                                        ? 'Ẩn hành trình của thợ sửa chữa  '
-                                        : 'Xem hành trình của thợ sửa chữa  ',
+                                        ? 'Ẩn đường đi đến nơi sửa chữa  '
+                                        : 'Xem đường đi đến nơi sửa chữa  ',
                                     style: h6.copyWith(
                                       color: Colors.black54,
                                     ),
@@ -236,6 +236,7 @@ class _RequestDetailState extends State<RequestDetail> {
                               minLines: 2,
                               maxLines: 5,
                               keyboardType: TextInputType.multiline,
+                              style: h5,
                               initialValue:
                                   'Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức, thành phố Hồ Chí Minh',
                               decoration: InputDecoration(
@@ -401,9 +402,43 @@ class _RequestDetailState extends State<RequestDetail> {
                                   ),
                                 ),
                               ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 40,
+                                      width: 300,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.1),
+                                            offset: Offset.zero,
+                                            blurRadius: 3,
+                                          )
+                                        ],
+                                      ),
+                                      child: Text(
+                                        'Hoàn thànhh yêu cầu sửa chữa',
+                                        style: h5.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(
                                 height: 70,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -414,7 +449,11 @@ class _RequestDetailState extends State<RequestDetail> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter, child: BottomNavigation()),
+              alignment: Alignment.bottomCenter,
+              child: BottomNavigationAdmin(
+                selectedIndex: 0,
+              ),
+            ),
             Align(
               alignment: Alignment.bottomRight,
               child: CircleIconButton(

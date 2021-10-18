@@ -1,5 +1,6 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class TopNavigationBar extends StatelessWidget {
@@ -11,9 +12,22 @@ class TopNavigationBar extends StatelessWidget {
       children: [
         backgroundImage(imagePath + sweetHomePNG),
         backgroundColor(primaryLightColorTransparent),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: CircleIconButton(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            margin: const EdgeInsets.only(left: 10),
+            iconData: Icons.arrow_back_ios,
+            size: 30,
+            iconColor: Colors.white,
+            backgroundColor: primaryLightColorTransparent,
+          ),
+        ),
         Center(
           child: Text(
-            'Tạo yêu cầu sửa chữa',
+            'Tiến trình sửa chữa',
             style: h5.copyWith(color: Colors.white),
           ),
         ),
@@ -25,7 +39,7 @@ class TopNavigationBar extends StatelessWidget {
             ),
             child: notificationButton(() {}),
           ),
-        )
+        ),
       ],
     );
   }
