@@ -1,109 +1,69 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
-import 'package:elect_repair/screens/repairman/request_detail.dart/request_detail.dart';
+import 'package:elect_repair/screens/repairman/request_detail/request_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RequestContainer extends StatefulWidget {
-  const RequestContainer({Key? key}) : super(key: key);
+  const RequestContainer({Key? key, required this.onTapNext}) : super(key: key);
+  final VoidCallback onTapNext;
 
   @override
   State<RequestContainer> createState() => _RequestContainerState();
 }
 
 class _RequestContainerState extends State<RequestContainer> {
-  var _currentIndex = 0;
-  late PageController _pageController;
+  //var _currentIndex = 0;
+  // late PageController _pageController;
 
-  @override
-  void initState() {
-    _pageController = PageController(viewportFraction: 1);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _pageController = PageController(viewportFraction: 1);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    //final deviceSize = MediaQuery.of(context).size;
     return Container(
       color: Colors.white,
       child: Column(
         children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Yêu cầu sửa chữa \ntruyền hình gần bạn',
-                  style: h5.copyWith(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-                InkWell(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        'Xem tất cả',
-                        style: h5.copyWith(
-                          color: primaryColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 5),
-                        child: Icon(
-                          Icons.arrow_forward,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             flex: 1,
             child: Container(
               color: Colors.white,
               alignment: Alignment.center,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: 6,
-                itemBuilder: (context, index) => const CustomerRequest(),
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
+              // child: PageView.builder(
+              //   controller: _pageController,
+              //   itemCount: 6,
+              //   itemBuilder: (context, index) => const CustomerRequest(),
+              //   onPageChanged: (index) {
+              //     setState(() {
+              //       _currentIndex = index;
+              //     });
+              //   },
+              // ),
+              child: CustomerRequest(
+                onTapNext: widget.onTapNext,
               ),
             ),
           ),
-          SizedBox(
-            height: 36,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              margin: const EdgeInsets.only(top: 0, bottom: 27),
-              alignment: Alignment.center,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 6,
-                  itemBuilder: (context, index) =>
-                      buildIndicatior(index == _currentIndex, deviceSize)),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          )
+          // SizedBox(
+          //   height: 36,
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 35),
+          //     margin: const EdgeInsets.only(top: 0, bottom: 27),
+          //     alignment: Alignment.center,
+          //     child: ListView.builder(
+          //         scrollDirection: Axis.horizontal,
+          //         physics: const NeverScrollableScrollPhysics(),
+          //         itemCount: 6,
+          //         itemBuilder: (context, index) =>
+          //             buildIndicatior(index == _currentIndex, deviceSize)),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -131,7 +91,8 @@ class _RequestContainerState extends State<RequestContainer> {
 }
 
 class CustomerRequest extends StatelessWidget {
-  const CustomerRequest({Key? key}) : super(key: key);
+  const CustomerRequest({Key? key, required this.onTapNext}) : super(key: key);
+  final VoidCallback onTapNext;
 
   @override
   Widget build(BuildContext context) {
@@ -177,29 +138,15 @@ class CustomerRequest extends StatelessWidget {
                     Container(
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(top: 5, left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Row(
                         children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                FontAwesomeIcons.clock,
-                                size: 12,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                ' Đã đăng 2 giờ trước -',
-                                style: h5.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ],
+                          const Icon(
+                            FontAwesomeIcons.clock,
+                            size: 12,
+                            color: Colors.white,
                           ),
                           Text(
-                            '04:35 PM, 01/10/2021',
+                            ' 04:35 PM, 01/10/2021',
                             style: h5.copyWith(
                               color: Colors.white,
                               fontSize: 13,
@@ -310,7 +257,7 @@ class CustomerRequest extends StatelessWidget {
                       ),
                       const Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 35, vertical: 3),
+                            EdgeInsets.symmetric(horizontal: 35, vertical: 8),
                         child: Divider(
                           height: 1,
                           thickness: 1,
@@ -342,35 +289,70 @@ class CustomerRequest extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Center(
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const RequestDetail(),
-                              ),
-                            ),
-                            child: Container(
-                              height: 30,
-                              width: 270,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(5),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.7),
-                                    offset: Offset.zero,
-                                    blurRadius: 3,
-                                  )
-                                ],
-                              ),
-                              child: Text(
-                                'Xem chi tiết yêu cầu',
-                                style: h5.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: onTapNext,
+                                child: Container(
+                                  height: 30,
+                                  width: 120,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.7),
+                                        offset: Offset.zero,
+                                        blurRadius: 3,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    'Bỏ qua',
+                                    style: h5.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 40,
+                              ),
+                              InkWell(
+                                onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const RequestDetail(),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 30,
+                                  width: 120,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.cyan,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.7),
+                                        offset: Offset.zero,
+                                        blurRadius: 3,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    'Xem chi tiết',
+                                    style: h5.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
