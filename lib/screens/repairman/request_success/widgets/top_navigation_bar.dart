@@ -4,36 +4,30 @@ import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class TopNavigationBar extends StatelessWidget {
-  const TopNavigationBar({
-    Key? key,
-    required this.canPop,
-    required this.onTap,
-  }) : super(key: key);
-  final bool canPop;
-  final VoidCallback onTap;
+  const TopNavigationBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         backgroundImage(imagePath + sweetHomePNG),
         backgroundColor(primaryLightColorTransparent),
-        Visibility(
-          visible: canPop,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: CircleIconButton(
-              onTap: onTap,
-              margin: const EdgeInsets.only(left: 10),
-              iconData: Icons.arrow_back_ios,
-              size: 30,
-              iconColor: Colors.white,
-              backgroundColor: primaryLightColorTransparent,
-            ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: CircleIconButton(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            margin: const EdgeInsets.only(left: 10),
+            iconData: Icons.arrow_back_ios,
+            size: 30,
+            iconColor: Colors.white,
+            backgroundColor: primaryLightColorTransparent,
           ),
         ),
         Center(
           child: Text(
-            'Tạo yêu cầu sửa chữa',
+            'Tiến trình sửa chữa',
             style: h5.copyWith(color: Colors.white),
           ),
         ),
@@ -45,7 +39,7 @@ class TopNavigationBar extends StatelessWidget {
             ),
             child: notificationButton(() {}),
           ),
-        )
+        ),
       ],
     );
   }

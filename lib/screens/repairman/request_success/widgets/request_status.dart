@@ -26,14 +26,14 @@ class RequestStatus extends StatelessWidget {
             ),
             orderStatusDetail(
               statusTitle: 'Thợ sửa chữa đã xuất phát và đang trên đường đến',
-              statusValue: false,
+              statusValue: true,
               statusStep: 3,
               isLastStatus: false,
             ),
             orderStatusDetail(
               statusTitle:
                   'Thợ sửa chữa đã đến nơi và đang trong tiến trình sửa chữa',
-              statusValue: false,
+              statusValue: true,
               statusStep: 4,
               isLastStatus: false,
             ),

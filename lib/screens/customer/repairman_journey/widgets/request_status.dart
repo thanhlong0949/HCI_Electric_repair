@@ -19,28 +19,22 @@ class RequestStatus extends StatelessWidget {
               isLastStatus: false,
             ),
             orderStatusDetail(
-              statusTitle: 'Thợ sửa chữa chấp thuận yêu cầu sửa chữa',
+              statusTitle: 'Thợ sửa chữa chấp thuận yêu cầu và đang đến',
               statusValue: true,
               statusStep: 2,
-              isLastStatus: false,
-            ),
-            orderStatusDetail(
-              statusTitle: 'Thợ sửa chữa đã xuất phát và đang trên đường đến',
-              statusValue: false,
-              statusStep: 3,
               isLastStatus: false,
             ),
             orderStatusDetail(
               statusTitle:
                   'Thợ sửa chữa đã đến nơi và đang trong tiến trình sửa chữa',
               statusValue: false,
-              statusStep: 4,
+              statusStep: 3,
               isLastStatus: false,
             ),
             orderStatusDetail(
               statusTitle: 'Hoàn thành yêu cầu sửa chữa',
               statusValue: false,
-              statusStep: 5,
+              statusStep: 4,
               isLastStatus: true,
             ),
           ],

@@ -17,6 +17,7 @@ const sweetHomePNG = 'sweet_home.png';
 const repairmanPNG = 'repairman.png';
 const googleMapHCMPNG = 'googlemap_hcm.png';
 const tiviErrorPNG = 'tivi_error.png';
+const inTheWayPNG = 'inTheWayGoogleMap.png';
 
 //icons
 const iconPath = 'assets/icons/';

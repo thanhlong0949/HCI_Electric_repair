@@ -6,14 +6,21 @@ import 'package:elect_repair/widgets/bottom_navigation_bar_admin.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({Key? key, this.isReady = false}) : super(key: key);
+  final bool isReady;
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  var isReady = false;
+  late bool isReady;
   var request = RequestData.getRequest;
+
+  @override
+  void initState() {
+    super.initState();
+    isReady = widget.isReady;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 TextSpan(
                                   text:
-                                      ', bạn đã \nsẵn sàng để bắt đầu công việc chưa?',
+                                      ', bạn đã sẵn \nsàng để nhận yêu cầu sửa chữa chưa?',
                                   style: h4.copyWith(
                                     fontSize: 18,
                                   ),
@@ -85,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             child: Image.asset(
                               imagePath + repairmanPNG,
-                              height: size.height * 0.35,
+                              height: size.height * 0.45,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -110,7 +117,7 @@ class _DashboardState extends State<Dashboard> {
                                   ],
                                 ),
                                 child: Text(
-                                  'Bắt đầu công việc',
+                                  'Sẵn sàng nhận yêu cầu sửa chữa',
                                   style: h5.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -137,7 +144,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Đang tìm yêu cầu sửa \nchữa phù hợp với bạn',
+                                      'Đang tìm yêu cầu sửa chữa',
                                       style: h4.copyWith(
                                         fontSize: 20,
                                       ),
@@ -161,6 +168,54 @@ class _DashboardState extends State<Dashboard> {
                                       imagePath + repairmanPNG,
                                       height: size.height * 0.35,
                                       fit: BoxFit.cover,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      child: Text(
+                                        'Nếu bạn đang bận hoặc chưa sẵn sàng',
+                                        style: h4.copyWith(
+                                          fontSize: 14,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: InkWell(
+                                        onTap: () => Navigator.of(context)
+                                            .pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Dashboard(),
+                                          ),
+                                        ),
+                                        child: Container(
+                                          height: 40,
+                                          width: 270,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.7),
+                                                offset: Offset.zero,
+                                                blurRadius: 3,
+                                              )
+                                            ],
+                                          ),
+                                          child: Text(
+                                            'Dừng nhận yêu cầu sửa chữa',
+                                            style: h5.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

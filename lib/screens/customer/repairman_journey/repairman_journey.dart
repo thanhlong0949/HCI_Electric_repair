@@ -6,14 +6,14 @@ import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
-class RequestDetail extends StatefulWidget {
-  const RequestDetail({Key? key}) : super(key: key);
+class RepairmanJourney extends StatefulWidget {
+  const RepairmanJourney({Key? key}) : super(key: key);
 
   @override
-  State<RequestDetail> createState() => _RequestDetailState();
+  State<RepairmanJourney> createState() => _RepairmanJourneyState();
 }
 
-class _RequestDetailState extends State<RequestDetail> {
+class _RepairmanJourneyState extends State<RepairmanJourney> {
   bool isShowMap = false;
 
   @override

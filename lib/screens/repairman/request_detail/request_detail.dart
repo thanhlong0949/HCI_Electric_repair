@@ -97,28 +97,6 @@ class _RequestDetailState extends State<RequestDetail> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Trạng thái: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Đang chờ người sửa chữa chấp thuận \nyêu cầu',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
                                     'Địa chỉ: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
@@ -165,7 +143,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                     ),
                                   ),
                                   Text(
-                                    'Truyền hình',
+                                    'Tivi',
                                     style: h6.copyWith(
                                       color: Colors.black,
                                       height: 1.5,
@@ -194,7 +172,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                     ),
                                   ),
                                   Text(
-                                    'The Frame 43 inch LS03A',
+                                    'Smart Tivi Samsung 32 Inch',
                                     style: h6.copyWith(
                                       color: Colors.black,
                                       height: 1.5,
@@ -207,7 +185,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Vấn đề: ',
+                                    'Thời gian sử dụng: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
                                       height: 1.5,
@@ -215,13 +193,38 @@ class _RequestDetailState extends State<RequestDetail> {
                                     ),
                                   ),
                                   Text(
-                                    'Hình ảnh chập chờn không ổn định',
+                                    'Dưới 6 tháng',
                                     style: h6.copyWith(
                                       color: Colors.black,
                                       height: 1.5,
                                     ),
                                   ),
                                 ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Vấn đề: ',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Hình ảnh chập chờn không ổn định, ánh \nsáng màn hình bị yếu',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -231,20 +234,21 @@ class _RequestDetailState extends State<RequestDetail> {
                                     'Mô tả: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
-                                      height: 1.5,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Flexible(
                                     child: Text(
-                                      'Sau khi khở động thiết bị và chọn kênh truyền hình thì khoảng 5-10 giây sau màn hình sẽ bị sọc dưa và chập chờn làm chất lượng xem bị giảm',
+                                      'Sau khi khởi động thiết bị và chọn kênh truyền hình thì khoảng 5-10 giây sau màn hình sẽ bị sọc dưa và chập chờn làm chất lượng xem bị giảm',
                                       style: h6.copyWith(
                                         color: Colors.black,
-                                        height: 1.5,
                                       ),
                                     ),
                                   ),
                                 ],
+                              ),
+                              const SizedBox(
+                                height: 3,
                               ),
                               Center(
                                 child: Container(
@@ -339,7 +343,7 @@ class _RequestDetailState extends State<RequestDetail> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                margin: const EdgeInsets.only(bottom: 70, right: 10),
+                margin: const EdgeInsets.only(bottom: 110, right: 10),
                 size: 40,
                 iconData: Icons.message,
                 iconColor: Colors.white,
@@ -353,7 +357,7 @@ class _RequestDetailState extends State<RequestDetail> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                margin: const EdgeInsets.only(bottom: 120, right: 10),
+                margin: const EdgeInsets.only(bottom: 160, right: 10),
                 size: 40,
                 iconData: Icons.call,
                 iconColor: Colors.white,

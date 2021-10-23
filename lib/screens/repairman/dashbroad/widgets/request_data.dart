@@ -6,46 +6,43 @@ class RequestData {
   static Future<Widget> getRequest() async {
     late Widget widget;
     await Future.delayed(
-      const Duration(seconds: 10),
+      const Duration(seconds: 5),
       () {
         widget = Center(
           child: Column(
             children: [
               const SizedBox(
-                height: 50,
+                height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'Đã tìm thấy yêu cầu sửa chữa \nphù hợp với bạn',
-                    style: h4.copyWith(
-                      fontSize: 19,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ' (khoảng cách 3km)',
-                        style: h4.copyWith(
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  text: 'Đã tìm thấy yêu cầu sửa chữa \nphù hợp với bạn',
+                  style: h4.copyWith(
+                    fontSize: 21,
+                    fontWeight: FontWeight.w500,
                   ),
+                  children: [
+                    TextSpan(
+                      text: ' (khoảng cách 3km)',
+                      style: h4.copyWith(
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 5,
               ),
-              Expanded(
+              const Expanded(
                 flex: 1,
-                child: RequestContainer(
-                  onTapNext: () {},
-                ),
+                child: RequestContainer(),
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
             ],
           ),

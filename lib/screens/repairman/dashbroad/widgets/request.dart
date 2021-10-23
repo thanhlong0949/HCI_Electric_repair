@@ -1,13 +1,13 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/dashbroad.dart';
 import 'package:elect_repair/screens/repairman/request_detail/request_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RequestContainer extends StatefulWidget {
-  const RequestContainer({Key? key, required this.onTapNext}) : super(key: key);
-  final VoidCallback onTapNext;
+  const RequestContainer({Key? key}) : super(key: key);
 
   @override
   State<RequestContainer> createState() => _RequestContainerState();
@@ -45,9 +45,7 @@ class _RequestContainerState extends State<RequestContainer> {
               //     });
               //   },
               // ),
-              child: CustomerRequest(
-                onTapNext: widget.onTapNext,
-              ),
+              child: CustomerRequest(),
             ),
           ),
           // SizedBox(
@@ -91,8 +89,7 @@ class _RequestContainerState extends State<RequestContainer> {
 }
 
 class CustomerRequest extends StatelessWidget {
-  const CustomerRequest({Key? key, required this.onTapNext}) : super(key: key);
-  final VoidCallback onTapNext;
+  const CustomerRequest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +120,7 @@ class CustomerRequest extends StatelessWidget {
                 child: Stack(
                   children: [
                     Image.asset(
-                      imagePath + 'phone_error.jpg',
+                      imagePath + tiviErrorPNG,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
@@ -137,20 +134,24 @@ class CustomerRequest extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.only(top: 5, left: 10),
+                      padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
-                            FontAwesomeIcons.clock,
+                          Icon(
+                            FontAwesomeIcons.mapMarkerAlt,
                             size: 12,
-                            color: Colors.white,
+                            color: Colors.blue[200],
+                          ),
+                          const SizedBox(
+                            width: 3,
                           ),
                           Text(
-                            ' 04:35 PM, 01/10/2021',
+                            '(3km) Số AB1 / đường C23, \nkhu Công Nghệ Cao, phường...',
                             style: h5.copyWith(
                               color: Colors.white,
-                              fontSize: 13,
-                              height: 1.5,
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -164,100 +165,133 @@ class CustomerRequest extends StatelessWidget {
                 child: Container(
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
+                    horizontal: 25,
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Tivi Android Samsung',
-                        style: h5.copyWith(
-                          color: primaryColor,
-                          fontSize: 23,
-                          height: 1.2,
-                        ),
-                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(
-                            FontAwesomeIcons.mapMarkerAlt,
-                            size: 12,
-                            color: Colors.blue,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Flexible(
-                            child: Text(
-                              '(3km) Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức...',
-                              style: h5.copyWith(
-                                color: lightGrey,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
                           SizedBox(
-                            width: 12,
-                            height: 12,
+                            width: 22,
+                            height: 22,
                             child: SvgPicture.asset(
                               iconPath + televisionIconSvg,
                               color: primaryColor,
                             ),
                           ),
                           Text(
-                            ' Loại thiết bị: Truyền hình',
+                            ' Smart Tivi Samsung 32 Inch',
                             style: h5.copyWith(
-                              color: lightGrey,
-                              fontSize: 13,
+                              color: primaryColor,
+                              fontSize: 18,
+                              height: 1.2,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(
+                        height: 10,
+                      ),
+                      RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          text: 'Loại thiết bị: ',
+                          style: h5.copyWith(
+                            color: lightGrey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: const [
+                            TextSpan(
+                                text: 'Tivi',
+                                style: TextStyle(fontWeight: FontWeight.normal))
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
                         height: 5,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            width: 10,
+                      RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          text: 'Hãng sản xuất: ',
+                          style: h5.copyWith(
+                            color: lightGrey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const Icon(
-                            Icons.sync,
-                            size: 12,
-                            color: Colors.green,
+                          children: const [
+                            TextSpan(
+                                text: 'Samsung',
+                                style: TextStyle(fontWeight: FontWeight.normal))
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          text: 'Loại Tivi: ',
+                          style: h5.copyWith(
+                            color: lightGrey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Flexible(
-                            child: Text(
-                              ' Trạng thái: Đang chờ thợ sửa chữa chấp thuận yêu cầu',
-                              style: h5.copyWith(
-                                color: lightGrey,
-                                fontSize: 13,
-                              ),
+                          children: const [
+                            TextSpan(
+                                text: 'Smart/Internet',
+                                style: TextStyle(fontWeight: FontWeight.normal))
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          text: 'Kích thước màn hình: ',
+                          style: h5.copyWith(
+                            color: lightGrey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: const [
+                            TextSpan(
+                                text: '32 Inch',
+                                style: TextStyle(fontWeight: FontWeight.normal))
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Flexible(
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Trạng thái: ',
+                            style: h5.copyWith(
+                              color: lightGrey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
+                            children: const [
+                              TextSpan(
+                                  text:
+                                      'Đang chờ thợ sửa chữa chấp thuận yêu cầu sửa chữa',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.normal))
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                       const Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 35, vertical: 8),
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Divider(
                           height: 1,
                           thickness: 1,
@@ -286,73 +320,79 @@ class CustomerRequest extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: onTapNext,
-                                child: Container(
-                                  height: 30,
-                                  width: 120,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.7),
-                                        offset: Offset.zero,
-                                        blurRadius: 3,
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Bỏ qua',
-                                    style: h5.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              InkWell(
-                                onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const RequestDetail(),
-                                  ),
-                                ),
-                                child: Container(
-                                  height: 30,
-                                  width: 120,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.cyan,
-                                    borderRadius: BorderRadius.circular(5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.7),
-                                        offset: Offset.zero,
-                                        blurRadius: 3,
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Xem chi tiết',
-                                    style: h5.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 90,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const Dashboard(
+                              isReady: true,
+                            ),
+                          ),
+                        ),
+                        child: Container(
+                          height: 40,
+                          width: 120,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.7),
+                                offset: Offset.zero,
+                                blurRadius: 3,
+                              )
                             ],
+                          ),
+                          child: Text(
+                            'Bỏ qua',
+                            style: h5.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const RequestDetail(),
+                          ),
+                        ),
+                        child: Container(
+                          height: 40,
+                          width: 120,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.cyan,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.7),
+                                offset: Offset.zero,
+                                blurRadius: 3,
+                              )
+                            ],
+                          ),
+                          child: Text(
+                            'Xem chi tiết',
+                            style: h5.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
