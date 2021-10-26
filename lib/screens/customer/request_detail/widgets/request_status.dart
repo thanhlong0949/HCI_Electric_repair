@@ -2,43 +2,80 @@ import 'package:elect_repair/config/themes.dart';
 import 'package:flutter/material.dart';
 
 class RequestStatus extends StatelessWidget {
-  const RequestStatus({Key? key}) : super(key: key);
-
+  const RequestStatus(
+      {Key? key, required this.isHistory, required this.isCusRequest})
+      : super(key: key);
+  final bool isHistory;
+  final bool isCusRequest;
   @override
   Widget build(BuildContext context) => Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            orderStatusDetail(
-              statusTitle: 'Xác nhận yêu cầu sửa chữa',
-              statusValue: true,
-              statusStep: 1,
-              isLastStatus: false,
-            ),
-            orderStatusDetail(
-              statusTitle: 'Thợ sửa chữa chấp thuận yêu cầu và đang đến',
-              statusValue: true,
-              statusStep: 2,
-              isLastStatus: false,
-            ),
-            orderStatusDetail(
-              statusTitle:
-                  'Thợ sửa chữa đã đến nơi và đang trong tiến trình sửa chữa',
-              statusValue: false,
-              statusStep: 3,
-              isLastStatus: false,
-            ),
-            orderStatusDetail(
-              statusTitle: 'Hoàn thành yêu cầu sửa chữa',
-              statusValue: false,
-              statusStep: 4,
-              isLastStatus: true,
-            ),
-          ],
-        ),
+        child: !isCusRequest
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  orderStatusDetail(
+                    statusTitle: 'Xác nhận yêu cầu sửa chữa',
+                    statusValue: true,
+                    statusStep: 1,
+                    isLastStatus: false,
+                  ),
+                  !isCusRequest
+                      ? orderStatusDetail(
+                          statusTitle:
+                              'Thợ sửa chữa chấp thuận yêu cầu và đang đến',
+                          statusValue: true,
+                          statusStep: 2,
+                          isLastStatus: false,
+                        )
+                      : orderStatusDetail(
+                          statusTitle:
+                              'Thợ sửa chữa chấp thuận yêu cầu và đang đến',
+                          statusValue: false,
+                          statusStep: 2,
+                          isLastStatus: false,
+                        ),
+                  !isHistory
+                      ? orderStatusDetail(
+                          statusTitle:
+                              'Thợ sửa chữa đã đến nơi và đang trong tiến trình sửa chữa',
+                          statusValue: false,
+                          statusStep: 3,
+                          isLastStatus: false,
+                        )
+                      : orderStatusDetail(
+                          statusTitle:
+                              'Thợ sửa chữa đã đến nơi và đang trong tiến trình sửa chữa',
+                          statusValue: true,
+                          statusStep: 3,
+                          isLastStatus: false,
+                        ),
+                  !isHistory
+                      ? orderStatusDetail(
+                          statusTitle: 'Hoàn thành yêu cầu sửa chữa',
+                          statusValue: false,
+                          statusStep: 4,
+                          isLastStatus: true,
+                        )
+                      : orderStatusDetail(
+                          statusTitle: 'Hoàn thành yêu cầu sửa chữa',
+                          statusValue: true,
+                          statusStep: 4,
+                          isLastStatus: true,
+                        ),
+                ],
+              )
+            : Column(
+                children: [
+                  Center(
+                      child: Text(
+                    "Đang tìm thợ sửa chữa",
+                    style: h4.copyWith(color: Colors.black, fontSize: 20),
+                  )),
+                ],
+              ),
       );
 
   orderStatusDetail(
@@ -77,7 +114,9 @@ class RequestStatus extends StatelessWidget {
             child: Text(
               statusTitle,
               style: h6.copyWith(
-                color: statusValue ? primaryColor : const Color(0xFFFFCB9B),
+                color: statusValue
+                    ? const Color(0xFF000000)
+                    : const Color(0xFF929292),
               ),
             ),
           ),

@@ -83,7 +83,9 @@ class RequestStatus extends StatelessWidget {
             child: Text(
               statusTitle,
               style: h6.copyWith(
-                color: statusValue ? primaryColor : const Color(0xFFFFCB9B),
+                color: statusValue
+                    ? const Color(0xFF000000)
+                    : const Color(0xFF929292),
               ),
             ),
           ),

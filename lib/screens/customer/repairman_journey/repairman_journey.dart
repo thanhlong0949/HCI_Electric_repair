@@ -1,7 +1,7 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/customer/repairman_journey/widgets/top_navigation_bar.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/request_status.dart';
-import 'package:elect_repair/screens/customer/request_detail/widgets/top_navigation_bar.dart';
 import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -146,7 +146,10 @@ class _RepairmanJourneyState extends State<RepairmanJourney> {
                             style: h5.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const RequestStatus(),
+                        const RequestStatus(
+                          isHistory: false,
+                          isCusRequest: false,
+                        ),
                         //!Bản đồ
                         Center(
                           child: InkWell(
@@ -441,7 +444,10 @@ class _RepairmanJourneyState extends State<RepairmanJourney> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter, child: BottomNavigation()),
+                alignment: Alignment.bottomCenter,
+                child: BottomNavigation(
+                  selectedIndex: 2,
+                )),
             Align(
               alignment: Alignment.bottomRight,
               child: CircleIconButton(

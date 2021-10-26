@@ -454,15 +454,13 @@ class _RequestSuccessState extends State<RequestSuccess> {
                                           contentPadding: EdgeInsets.zero,
                                           minVerticalPadding: 0,
                                           leading: Checkbox(
-                                            value: e.value,
-                                            checkColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            onChanged: (value) => setState(
-                                              () => issues1[e.key] = value!,
-                                            ),
-                                          ),
+                                              value: e.value,
+                                              checkColor: Colors.white,
+                                              onChanged: (value) => {}
+                                              // setState(
+                                              //   () => issues1[e.key] = value!,
+                                              // ),
+                                              ),
                                           title: Text(
                                             e.key,
                                             style: h6.copyWith(
@@ -482,15 +480,13 @@ class _RequestSuccessState extends State<RequestSuccess> {
                                       .map(
                                         (e) => ListTile(
                                           leading: Checkbox(
-                                            value: e.value,
-                                            checkColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            onChanged: (value) => setState(
-                                              () => issues2[e.key] = value!,
-                                            ),
-                                          ),
+                                              value: e.value,
+                                              checkColor: Colors.white,
+                                              onChanged: (value) => {}
+                                              // setState(
+                                              //   () => issues2[e.key] = value!,
+                                              // ),
+                                              ),
                                           title: Text(
                                             e.key,
                                             style: h6.copyWith(

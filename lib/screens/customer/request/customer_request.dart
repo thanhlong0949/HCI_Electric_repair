@@ -333,10 +333,10 @@ class _CustomerRequest extends State<CustomerRequest> {
                                                 leading: Checkbox(
                                                   value: e.value,
                                                   checkColor: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
+                                                  // shape: RoundedRectangleBorder(
+                                                  //     borderRadius:
+                                                  //         BorderRadius.circular(
+                                                  //             10)),
                                                   onChanged: (value) =>
                                                       setState(
                                                     () =>
@@ -366,10 +366,10 @@ class _CustomerRequest extends State<CustomerRequest> {
                                                 leading: Checkbox(
                                                   value: e.value,
                                                   checkColor: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
+                                                  // shape: RoundedRectangleBorder(
+                                                  //     borderRadius:
+                                                  //         BorderRadius.circular(
+                                                  //             10)),
                                                   onChanged: (value) =>
                                                       setState(
                                                     () =>
@@ -492,9 +492,36 @@ class _CustomerRequest extends State<CustomerRequest> {
                                   : Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const RequestDetail(),
+                                            const RequestDetail(
+                                          isHistory: false,
+                                          isCusRequest: true,
+                                          //isRepair: false,
+                                        ),
                                       ),
                                     );
+                              // : FutureBuilder<Widget>(
+                              //     future: alert.call(),
+                              //     builder: (context,
+                              //          snapshot) {
+                              //       List<Widget> children;
+                              //       if (snapshot.hasData) {
+                              //         children = ;
+                              //       } else {
+                              //         children =
+                              //             createCancelDialog(context);
+
+                              //       }
+                              //       return Center(
+                              //         child: Column(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.center,
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.center,
+                              //           children: children,
+                              //         ),
+                              //       );
+                              //     },
+                              //   );
                             },
                             child: Container(
                               height: 45,
@@ -534,7 +561,10 @@ class _CustomerRequest extends State<CustomerRequest> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter, child: BottomNavigation()),
+                alignment: Alignment.bottomCenter,
+                child: BottomNavigation(
+                  selectedIndex: 2,
+                )),
           ],
         ),
       ),

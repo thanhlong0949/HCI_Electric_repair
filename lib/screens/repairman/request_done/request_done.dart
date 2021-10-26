@@ -1,6 +1,6 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
-import 'package:elect_repair/screens/repairman/dashbroad/dashbroad.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/dashboard.dart';
 import 'package:elect_repair/screens/repairman/request_done/widgets/top_navigation_bar.dart';
 import 'package:elect_repair/widgets/bottom_navigation_bar_admin.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +40,15 @@ class _RequestDoneState extends State<RequestDone> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 50, child: TopNavigationBar()),
+                const SizedBox(
+                    height: 50,
+                    child: TopNavigationBar(
+                      isBack: false,
+                    )),
                 Expanded(
                   flex: 1,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
@@ -60,59 +64,60 @@ class _RequestDoneState extends State<RequestDone> {
                         ),
                         child: Image.asset(
                           imagePath + repairmanPNG,
-                          height: _size.height * 0.4,
+                          height: _size.height * 0.5,
                         ),
                       ),
+                      // Center(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.symmetric(
+                      //       vertical: 10,
+                      //     ),
+                      //     child: InkWell(
+                      //       onTap: () => Navigator.of(context).pushReplacement(
+                      //         MaterialPageRoute(
+                      //           builder: (context) => const Dashboard(
+                      //             isReady: true,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 300,
+                      //         alignment: Alignment.center,
+                      //         decoration: BoxDecoration(
+                      //           color: primaryColor,
+                      //           borderRadius: BorderRadius.circular(5),
+                      //           boxShadow: [
+                      //             BoxShadow(
+                      //               color: Colors.black.withOpacity(0.1),
+                      //               offset: Offset.zero,
+                      //               blurRadius: 3,
+                      //             )
+                      //           ],
+                      //         ),
+                      //         child: Text(
+                      //           'Tìm kiếm yêu cầu sửa chữa mới',
+                      //           style: h5.copyWith(
+                      //             color: Colors.white,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 10,
                           ),
                           child: InkWell(
-                            onTap: () => Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const Dashboard(
-                                  isReady: true,
-                                ),
-                              ),
-                            ),
-                            child: Container(
-                              height: 40,
-                              width: 300,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(5),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    offset: Offset.zero,
-                                    blurRadius: 3,
-                                  )
-                                ],
-                              ),
-                              child: Text(
-                                'Tìm kiếm yêu cầu sửa chữa mới',
-                                style: h5.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const Dashboard(),
-                              ),
-                            ),
+                            onTap: () => Navigator.of(context)
+                                .pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Dashboard(isReady: true)),
+                                    (Route<dynamic> route) => false),
                             child: Container(
                               height: 40,
                               width: 300,
@@ -147,7 +152,8 @@ class _RequestDoneState extends State<RequestDone> {
             const Align(
               alignment: Alignment.bottomCenter,
               child: BottomNavigationAdmin(
-                selectedIndex: 0,
+                selectedIndex: 2,
+                isReady: true,
               ),
             ),
           ],

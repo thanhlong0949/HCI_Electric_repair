@@ -2,7 +2,7 @@ import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
 import 'package:elect_repair/screens/customer/request/customer_request.dart';
 import 'package:elect_repair/screens/guest/widgets/background.dart';
-import 'package:elect_repair/screens/repairman/dashbroad/dashbroad.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/dashboard.dart';
 import 'package:elect_repair/widgets/rounded_input_field.dart';
 import 'package:elect_repair/widgets/rounded_password_field.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _SignInPageState extends State<SignInPage> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
-                      'Sign In',
+                      'Đăng nhập',
                       style: TextStyle(
                           fontSize: 23,
                           fontWeight: FontWeight.bold,
@@ -66,16 +66,18 @@ class _SignInPageState extends State<SignInPage> {
                           )
                         : Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const Dashboard(),
+                              builder: (context) => const Dashboard(
+                                isReady: false,
+                              ),
                             ),
                           ),
-                    text: 'Sign in with Account',
+                    text: 'Đăng nhập',
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        'Forgot your account?',
+                        'Quên mật khẩu?',
                         style: TextStyle(
                           fontSize: 12,
                           letterSpacing: 1,
@@ -86,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
                         width: 7,
                       ),
                       Text(
-                        'Reset',
+                        'Tạo lại',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -110,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            'or',
+                            'hoặc',
                             style: TextStyle(
                               fontSize: 12,
                               letterSpacing: 1,
@@ -139,7 +141,7 @@ class _SignInPageState extends State<SignInPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        'Don\'t have an account?',
+                        'Chưa có tài khoản ?',
                         style: TextStyle(
                           fontSize: 12,
                           letterSpacing: 1,
@@ -150,7 +152,7 @@ class _SignInPageState extends State<SignInPage> {
                         width: 7,
                       ),
                       Text(
-                        'Sign Up',
+                        'Đăng ký',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

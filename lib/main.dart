@@ -1,4 +1,6 @@
+import 'package:elect_repair/screens/customer/request/customer_request.dart';
 import 'package:elect_repair/screens/guest/sign_in/sign_in.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/dashboard.dart';
 import 'package:flutter/material.dart';
 
 main() => runApp(const MainApp());
@@ -8,7 +10,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'Sign In',
+        title: 'Đăng nhập',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
         ),

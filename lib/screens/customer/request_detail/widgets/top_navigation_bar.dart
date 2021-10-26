@@ -1,11 +1,14 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/customer/request_detail/request_detail.dart';
+import 'package:elect_repair/screens/customer/request_detail/widgets/alert.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class TopNavigationBar extends StatelessWidget {
-  const TopNavigationBar({Key? key}) : super(key: key);
-
+  const TopNavigationBar({Key? key, required this.isCusRequest})
+      : super(key: key);
+  final bool isCusRequest;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,15 +17,34 @@ class TopNavigationBar extends StatelessWidget {
         backgroundColor(primaryLightColorTransparent),
         Align(
           alignment: Alignment.centerLeft,
-          child: CircleIconButton(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            margin: const EdgeInsets.only(left: 10),
-            iconData: Icons.arrow_back_ios,
-            size: 30,
-            iconColor: Colors.white,
-            backgroundColor: primaryLightColorTransparent,
+          child: Row(
+            children: [
+              CircleIconButton(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                margin: const EdgeInsets.only(left: 10),
+                iconData: Icons.arrow_back_ios,
+                size: 30,
+                iconColor: Colors.white,
+                backgroundColor: primaryLightColorTransparent,
+              ),
+              // isCusRequest
+              //     ? CircleIconButton(
+              //         onTap: () {
+              //           showDialog(
+              //               context: context,
+              //               builder: (context) =>
+              //                   const ShowAlertAndAutoDismiss());
+              //         },
+              //         margin: const EdgeInsets.only(left: 10),
+              //         iconData: Icons.arrow_forward_ios,
+              //         size: 30,
+              //         iconColor: Colors.white,
+              //         backgroundColor: primaryLightColorTransparent,
+              //       )
+              //     : const SizedBox(),
+            ],
           ),
         ),
         Center(

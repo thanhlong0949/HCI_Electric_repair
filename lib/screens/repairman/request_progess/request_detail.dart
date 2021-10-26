@@ -26,17 +26,21 @@ class _RequestProgressState extends State<RequestProgress> {
         child: Stack(
           children: [
             Visibility(
-              visible: isInTheWay,
-              child: InkWell(
+                visible: isInTheWay,
+                child: InkWell(
                   onTap: () => {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const RequestSuccess(),
-                          ),
-                        ),
-                      },
-                  child: Image.asset(imagePath + inTheWayPNG)),
-            ),
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const RequestSuccess(),
+                      ),
+                    ),
+                  },
+                  child: Image.asset(
+                    imagePath + inTheWayPNG,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.fill,
+                  ),
+                )),
             Visibility(
               visible: !isInTheWay,
               child: Column(

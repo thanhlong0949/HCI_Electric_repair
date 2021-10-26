@@ -1,10 +1,14 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/repairman/dashbroad/dashboard.dart';
+import 'package:elect_repair/screens/repairman/history/history.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationAdmin extends StatefulWidget {
-  const BottomNavigationAdmin({Key? key, this.selectedIndex = 2})
+  const BottomNavigationAdmin(
+      {Key? key, required this.selectedIndex, required this.isReady})
       : super(key: key);
+  final bool isReady;
   final int selectedIndex;
 
   @override
@@ -12,6 +16,13 @@ class BottomNavigationAdmin extends StatefulWidget {
 }
 
 class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
+  late int currentIndex;
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.selectedIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
@@ -20,9 +31,29 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
       color: primaryLightColor,
       backgroundColor: Colors.transparent,
       buttonBackgroundColor: primaryColor,
-      onTap: (index) => setState(() {
-        //widget.selectedIndex = index;
-      }),
+      onTap: (index) {
+        (index != widget.selectedIndex && index == 3)
+            ? Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => HistoryRequest(
+                    isReady: widget.isReady,
+                  ),
+                ),
+              )
+            : null;
+        (index != widget.selectedIndex && index == 2)
+            ? Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Dashboard(
+                    isReady: widget.isReady,
+                  ),
+                ),
+              )
+            : null;
+        setState(() {
+          currentIndex = index;
+        });
+      },
       items: [
         Icon(
           Icons.work,

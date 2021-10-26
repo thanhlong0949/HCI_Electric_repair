@@ -1,47 +1,72 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/customer/history/history.dart';
+import 'package:elect_repair/screens/customer/request/customer_request.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
-
+  const BottomNavigation({Key? key, required this.selectedIndex})
+      : super(key: key);
+  final int selectedIndex;
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  var selectedIndex = 2;
+  late int currentIndex;
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.selectedIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       height: 46,
-      index: 2,
+      index: currentIndex,
       color: primaryLightColor,
       backgroundColor: Colors.transparent,
       buttonBackgroundColor: primaryColor,
-      onTap: (index) => setState(() {
-        selectedIndex = index;
-      }),
+      onTap: (index) {
+        (index != widget.selectedIndex && index == 3)
+            ? Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const HistoryRequest(),
+                ),
+              )
+            : null;
+        (index != widget.selectedIndex && index == 2)
+            ? Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CustomerRequest(),
+                ),
+              )
+            : null;
+        setState(() {
+          currentIndex = index;
+        });
+      },
       items: [
         Icon(
           Icons.home,
-          color: selectedIndex == 0 ? Colors.white : Colors.black,
+          color: currentIndex == 0 ? Colors.white : Colors.black,
         ),
         Icon(
           Icons.person,
-          color: selectedIndex == 1 ? Colors.white : Colors.black,
+          color: currentIndex == 1 ? Colors.white : Colors.black,
         ),
         Icon(
           Icons.add_circle_outline,
-          color: selectedIndex == 2 ? Colors.white : Colors.black,
+          color: currentIndex == 2 ? Colors.white : Colors.black,
         ),
         Icon(
           Icons.history,
-          color: selectedIndex == 3 ? Colors.white : Colors.black,
+          color: currentIndex == 3 ? Colors.white : Colors.black,
         ),
         Icon(
           Icons.settings,
-          color: selectedIndex == 4 ? Colors.white : Colors.black,
+          color: currentIndex == 4 ? Colors.white : Colors.black,
         ),
       ],
     );

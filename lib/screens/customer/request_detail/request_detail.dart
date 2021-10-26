@@ -1,24 +1,59 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
+import 'package:elect_repair/screens/customer/request_detail/widgets/alert.dart';
+import 'package:elect_repair/screens/customer/request_detail/widgets/cancel_dialog.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/request_status.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/top_navigation_bar.dart';
+import 'package:elect_repair/screens/customer/tracking/tracking_repair.dart';
 import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class RequestDetail extends StatefulWidget {
-  const RequestDetail({Key? key}) : super(key: key);
-
+  const RequestDetail(
+      {Key? key, required this.isHistory, required this.isCusRequest})
+      : super(key: key);
+  final bool isHistory;
+  final bool isCusRequest;
   @override
   State<RequestDetail> createState() => _RequestDetailState();
 }
 
 class _RequestDetailState extends State<RequestDetail> {
   bool isShowMap = false;
+  late bool isCustRequest;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isCustRequest = widget.isCusRequest;
+  }
 
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
+    if (isCustRequest) {
+      Future.delayed(const Duration(milliseconds: 3000)).then((_) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Center(child: Text('Đã tìm thấy thợ sửa chữa')),
+            content: SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [Icon(Icons.person), Text('Lê Thị Bưởi')],
+              ),
+            ),
+          ),
+        );
+      });
+      Future.delayed(const Duration(milliseconds: 5000)).then((_) {
+        isCustRequest = false;
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const RequestDetail(isHistory: false, isCusRequest: false)));
+      });
+    }
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -27,7 +62,12 @@ class _RequestDetailState extends State<RequestDetail> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 50, child: TopNavigationBar()),
+                SizedBox(
+                  height: 50,
+                  child: TopNavigationBar(
+                    isCusRequest: widget.isCusRequest,
+                  ),
+                ),
                 Expanded(
                   flex: 1,
                   child: SingleChildScrollView(
@@ -35,6 +75,24 @@ class _RequestDetailState extends State<RequestDetail> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //!Trạng thái yêu cầu
+                        !widget.isHistory
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, bottom: 10, left: 15),
+                                child: Text(
+                                  'Trạng thái yêu cầu',
+                                  style:
+                                      h5.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                        !widget.isHistory
+                            ? RequestStatus(
+                                isHistory: widget.isHistory,
+                                isCusRequest: widget.isCusRequest,
+                              )
+                            : const SizedBox.shrink(),
                         //!Chi tiết yêu cầu
                         Padding(
                           padding: const EdgeInsets.only(
@@ -79,7 +137,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                     'Thời gian yêu cầu: ',
                                     style: h6.copyWith(
                                       color: Colors.black,
-                                      height: 1.5,
+                                      height: 1.8,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -87,174 +145,206 @@ class _RequestDetailState extends State<RequestDetail> {
                                     '04:16 - 18/10/2021',
                                     style: h6.copyWith(
                                       color: Colors.black,
-                                      height: 1.5,
+                                      height: 1.8,
                                     ),
                                   ),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Thợ sửa chữa: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Địa chỉ: ',
+                                  style: h6.copyWith(
+                                    color: Colors.black,
+                                    height: 1.8,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
-                                    'Lê Thị Bưởi',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          'Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức, thành phố Hồ Chí Minh',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.8,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Thời gian nhận sửa chữa: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    '20:17 - 18/10/2021',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ],
+                              !widget.isCusRequest
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Thợ sửa chữa: ',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Lê Thị Bưởi',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(),
+                              !widget.isCusRequest
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Thời gian nhận sửa chữa: ',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '20:17 - 18/10/2021',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(),
+                              widget.isHistory
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Trạng thái: ',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Đã hoàn thành',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(),
+                              const SizedBox(
+                                width: 5,
                               ),
                             ],
                           ),
                         ),
-                        //!Trạng thái yêu cầu
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, left: 15),
-                          child: Text(
-                            'Trạng thái yêu cầu',
-                            style: h5.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const RequestStatus(),
+
                         //!Bản đồ
                         Center(
-                          child: InkWell(
-                            onTap: () => setState(() => isShowMap = !isShowMap),
-                            child: Container(
-                              height: 40,
-                              width: 260,
-                              margin: const EdgeInsets.only(top: 15, bottom: 5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: primaryLightColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    offset: Offset.zero,
-                                    blurRadius: 3,
-                                  )
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    isShowMap
-                                        ? 'Ẩn hành trình của thợ sửa chữa  '
-                                        : 'Xem hành trình của thợ sửa chữa  ',
-                                    style: h6.copyWith(
-                                      color: Colors.black54,
+                          child: (!widget.isCusRequest && !widget.isHistory)
+                              ? InkWell(
+                                  onTap: () {
+                                    setState(() => isShowMap = !isShowMap);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TrackMap()));
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 260,
+                                    margin: const EdgeInsets.only(
+                                        top: 15, bottom: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: primaryLightColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.3),
+                                          offset: Offset.zero,
+                                          blurRadius: 3,
+                                        )
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          isShowMap
+                                              ? 'Ẩn hành trình của thợ sửa chữa  '
+                                              : 'Xem hành trình của thợ sửa chữa  ',
+                                          style: h6.copyWith(
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        Icon(
+                                          isShowMap
+                                              ? Icons.location_off_outlined
+                                              : Icons.location_pin,
+                                          size: 16,
+                                          color: isShowMap
+                                              ? primaryColor
+                                              : Colors.blue,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Icon(
-                                    isShowMap
-                                        ? Icons.location_off_outlined
-                                        : Icons.location_pin,
-                                    size: 16,
-                                    color:
-                                        isShowMap ? primaryColor : Colors.blue,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                )
+                              : widget.isCusRequest
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                            width: 200,
+                                            child: LinearProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.orange),
+                                              backgroundColor:
+                                                  Color(0xFF999999),
+                                            ),
+                                          ),
+                                          MaterialButton(
+                                            color: Colors.orange.shade100,
+                                            child: const Text(
+                                              "Hủy tạo yêu cầu",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      const CancelDialog());
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : null,
                         ),
-                        Visibility(
-                          visible: isShowMap,
-                          child: Center(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    offset: Offset.zero,
-                                    blurRadius: 3,
-                                  )
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                child: Image.asset(
-                                  imagePath + googleMapHCMPNG,
-                                  height: _size.height * 0.33,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: isShowMap,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 30,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: TextFormField(
-                              minLines: 2,
-                              maxLines: 5,
-                              keyboardType: TextInputType.multiline,
-                              style: h6,
-                              initialValue:
-                                  'Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức, thành phố Hồ Chí Minh',
-                              decoration: InputDecoration(
-                                label: Text(
-                                  'Địa chỉ sửa chữa thiết bị',
-                                  style: h5.copyWith(
-                                    color: lightGrey,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                hintText: 'Địa chỉ sửa chữa thiết bị',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+
                         //!Thiết bị và vấn đề
                         Padding(
                           padding: const EdgeInsets.only(
@@ -411,7 +501,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                         Radius.circular(10)),
                                     child: Image.asset(
                                       imagePath + tiviErrorPNG,
-                                      height: _size.height * 0.33,
+                                      height: _size.height * 0.28,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -441,35 +531,42 @@ class _RequestDetailState extends State<RequestDetail> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter, child: BottomNavigation()),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: CircleIconButton(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                margin: const EdgeInsets.only(bottom: 70, right: 10),
-                size: 40,
-                iconData: Icons.message,
-                iconColor: Colors.white,
-                iconSize: 18,
-                backgroundColor: primaryLightColorTransparent,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: CircleIconButton(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                margin: const EdgeInsets.only(bottom: 120, right: 10),
-                size: 40,
-                iconData: Icons.call,
-                iconColor: Colors.white,
-                iconSize: 18,
-                backgroundColor: primaryLightColorTransparent,
-              ),
-            ),
+                alignment: Alignment.bottomCenter,
+                child: BottomNavigation(
+                  selectedIndex: 2,
+                )),
+            !widget.isHistory
+                ? Align(
+                    alignment: Alignment.bottomRight,
+                    child: CircleIconButton(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      margin: const EdgeInsets.only(bottom: 70, right: 10),
+                      size: 40,
+                      iconData: Icons.message,
+                      iconColor: Colors.white,
+                      iconSize: 18,
+                      backgroundColor: primaryLightColorTransparent,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            !widget.isHistory
+                ? Align(
+                    alignment: Alignment.bottomRight,
+                    child: CircleIconButton(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      margin: const EdgeInsets.only(bottom: 120, right: 10),
+                      size: 40,
+                      iconData: Icons.call,
+                      iconColor: Colors.white,
+                      iconSize: 18,
+                      backgroundColor: primaryLightColorTransparent,
+                    ),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),
