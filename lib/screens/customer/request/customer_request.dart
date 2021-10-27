@@ -17,6 +17,9 @@ class _CustomerRequest extends State<CustomerRequest> {
   bool tbkStatus = false;
   int screen = 1;
   String cbValue = 'Truyền hình';
+  bool tivi = false;
+  bool tulanh = false;
+  bool maylanh = false;
 
   List<String> elecCatagory = [
     'Tivi',
@@ -42,13 +45,27 @@ class _CustomerRequest extends State<CustomerRequest> {
     'OLED/4K',
   ];
 
-  List<String> tiviStatus = [
+  List<String> tulanhCategory = [
+    'Mini',
+    'Ngăn đá trên',
+    'Ngăn đá dưới',
+    '2 cửa bên',
+    'Cửa trong cửa',
+    'Lắp âm',
+  ];
+  List<String> maylanhCategory = [
+    'Treo tường 2 khối',
+    'Âm trần',
+    'Tủ đứng',
+  ];
+
+  List<String> deviceStatus = [
     'Đã sử dụng (đã qua sửa chữa)',
     'Đã sử dụng (chưa qua sửa chữa)',
     'Mới mua',
   ];
 
-  List<String> tiviUsedTine = [
+  List<String> tiviUsedTime = [
     'Dưới 6 tháng',
     'Dưới 1 năm',
     'Từ 1 đến 2 năm',
@@ -64,19 +81,49 @@ class _CustomerRequest extends State<CustomerRequest> {
     'Trên 41 Inch',
   ];
 
-  Map<String, bool> issues1 = {
+  Map<String, bool> issuesTivi1 = {
     'Có tiếng ồn bất thường khi sử dụng': false,
     'Có nốt đen to trên màn hình': false,
     'Ánh sáng màn hình bị yếu': true,
     'Điều khiển từ xa không hoạt động': false,
   };
 
-  Map<String, bool> issues2 = {
+  Map<String, bool> issuesTivi2 = {
     'Hình ảnh chập chờn không ổn định': true,
     'Tivi tự động tắt liên tục': false,
     'Không thể kết nối thiết bị với mạng': false,
     'Vấn đề khác': false,
   };
+
+  Map<String, bool> issuesTulanh1 = {
+    'Có tiếng ồn bất thường khi sử dụng': false,
+    'Mất/Hư nguồn': false,
+    'Rò rỉ nước': true,
+    'Tủ đông không lạnh': false,
+  };
+
+  Map<String, bool> issuesTulanh2 = {
+    'Hỏng thermic': true,
+    'Tự động tắt liên tục': false,
+    'Cảm biến đèn không hoạt động': false,
+    'Vấn đề khác': false,
+  };
+
+  Map<String, bool> issuesMaylanh1 = {
+    'Có tiếng ồn bất thường khi sử dụng': false,
+    'Mất/Hư nguồn': false,
+    'Rò rỉ nước': false,
+    'Hơi tỏa không lạnh': false,
+  };
+
+  Map<String, bool> issuesMaylanh2 = {
+    'Cháy dây máy nén': true,
+    'Tự động tắt liên tục': false,
+    'Hư cảm biến nhiệt độ': false,
+    'Vấn đề khác': false,
+  };
+
+  String dropValue = 'Tủ lạnh';
 
   @override
   Widget build(BuildContext context) {
@@ -121,26 +168,58 @@ class _CustomerRequest extends State<CustomerRequest> {
                               DropdownList(
                                 hint: 'Loại thiết bị *',
                                 list: elecCatagory,
+                                onChange: ({required String selectedItem}) {
+                                  setState(() {
+                                    dropValue = selectedItem;
+                                    if (dropValue == 'Tivi') {
+                                      tivi = true;
+                                      tulanh = false;
+                                      maylanh = false;
+                                    }
+                                    ;
+                                    if (dropValue == 'Tủ lạnh') {
+                                      tulanh = true;
+                                      maylanh = false;
+                                      tivi = false;
+                                    }
+                                    ;
+                                    if (dropValue == 'Điều hòa') {
+                                      maylanh = true;
+                                      tivi = false;
+                                      tulanh = false;
+                                    }
+                                    ;
+                                  });
+                                  print("test " + dropValue);
+                                },
                               ),
                               DropdownList(
                                 hint: 'Hãng sản xuất *',
                                 list: manufacturer,
                               ),
                               DropdownList(
-                                hint: 'Loại Tivi *',
-                                list: tiviCategory,
+                                hint: 'Loại ' + dropValue + ' *',
+                                list: tivi
+                                    ? tiviCategory
+                                    : tulanh
+                                        ? tulanhCategory
+                                        : maylanh
+                                            ? maylanhCategory
+                                            : tiviCategory,
                               ),
-                              DropdownList(
-                                hint: 'Kích thước màn hình *',
-                                list: screenSizes,
-                              ),
+                              tivi
+                                  ? DropdownList(
+                                      hint: 'Kích thước màn hình *',
+                                      list: screenSizes,
+                                    )
+                                  : const SizedBox.shrink(),
                               DropdownList(
                                 hint: 'Tình trạng',
-                                list: tiviStatus,
+                                list: deviceStatus,
                               ),
                               DropdownList(
                                 hint: 'Thời gian sử dụng',
-                                list: tiviUsedTine,
+                                list: tiviUsedTime,
                               ),
                               //!Hình ảnh thiết bị
                               Padding(
@@ -315,82 +394,293 @@ class _CustomerRequest extends State<CustomerRequest> {
                                       h5.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Center(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: issues1.entries
-                                            .map(
-                                              (e) => ListTile(
-                                                contentPadding: EdgeInsets.zero,
-                                                minVerticalPadding: 0,
-                                                leading: Checkbox(
-                                                  value: e.value,
-                                                  checkColor: Colors.white,
-                                                  // shape: RoundedRectangleBorder(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(
-                                                  //             10)),
-                                                  onChanged: (value) =>
-                                                      setState(
-                                                    () =>
-                                                        issues1[e.key] = value!,
-                                                  ),
-                                                ),
-                                                title: Text(
-                                                  e.key,
-                                                  style: h6.copyWith(
-                                                      color: Colors.black),
+                              tivi
+                                  ? Center(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: issuesTivi1.entries
+                                                  .map(
+                                                    (e) => ListTile(
+                                                      contentPadding:
+                                                          EdgeInsets.zero,
+                                                      minVerticalPadding: 0,
+                                                      leading: Checkbox(
+                                                        value: e.value,
+                                                        checkColor:
+                                                            Colors.white,
+                                                        // shape: RoundedRectangleBorder(
+                                                        //     borderRadius:
+                                                        //         BorderRadius.circular(
+                                                        //             10)),
+                                                        onChanged: (value) =>
+                                                            setState(
+                                                          () => issuesTivi1[
+                                                              e.key] = value!,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        e.key,
+                                                        style: h6.copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 195,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: issuesTivi2.entries
+                                                  .map(
+                                                    (e) => ListTile(
+                                                      leading: Checkbox(
+                                                        value: e.value,
+                                                        checkColor:
+                                                            Colors.white,
+                                                        // shape: RoundedRectangleBorder(
+                                                        //     borderRadius:
+                                                        //         BorderRadius.circular(
+                                                        //             10)),
+                                                        onChanged: (value) =>
+                                                            setState(
+                                                          () => issuesTivi2[
+                                                              e.key] = value!,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        e.key,
+                                                        style: h6.copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : tulanh
+                                      ? Center(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: issuesTulanh1
+                                                      .entries
+                                                      .map(
+                                                        (e) => ListTile(
+                                                          contentPadding:
+                                                              EdgeInsets.zero,
+                                                          minVerticalPadding: 0,
+                                                          leading: Checkbox(
+                                                            value: e.value,
+                                                            checkColor:
+                                                                Colors.white,
+                                                            // shape: RoundedRectangleBorder(
+                                                            //     borderRadius:
+                                                            //         BorderRadius.circular(
+                                                            //             10)),
+                                                            onChanged:
+                                                                (value) =>
+                                                                    setState(
+                                                              () => issuesTulanh1[
+                                                                      e.key] =
+                                                                  value!,
+                                                            ),
+                                                          ),
+                                                          title: Text(
+                                                            e.key,
+                                                            style: h6.copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
                                                 ),
                                               ),
-                                            )
-                                            .toList(),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 195,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: issues2.entries
-                                            .map(
-                                              (e) => ListTile(
-                                                leading: Checkbox(
-                                                  value: e.value,
-                                                  checkColor: Colors.white,
-                                                  // shape: RoundedRectangleBorder(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(
-                                                  //             10)),
-                                                  onChanged: (value) =>
-                                                      setState(
-                                                    () =>
-                                                        issues2[e.key] = value!,
-                                                  ),
-                                                ),
-                                                title: Text(
-                                                  e.key,
-                                                  style: h6.copyWith(
-                                                      color: Colors.black),
+                                              SizedBox(
+                                                width: 195,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: issuesTulanh2
+                                                      .entries
+                                                      .map(
+                                                        (e) => ListTile(
+                                                          leading: Checkbox(
+                                                            value: e.value,
+                                                            checkColor:
+                                                                Colors.white,
+                                                            // shape: RoundedRectangleBorder(
+                                                            //     borderRadius:
+                                                            //         BorderRadius.circular(
+                                                            //             10)),
+                                                            onChanged:
+                                                                (value) =>
+                                                                    setState(
+                                                              () => issuesTulanh2[
+                                                                      e.key] =
+                                                                  value!,
+                                                            ),
+                                                          ),
+                                                          title: Text(
+                                                            e.key,
+                                                            style: h6.copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
                                                 ),
                                               ),
-                                            )
-                                            .toList(),
+                                            ],
+                                          ),
+                                        )
+                                      : Center(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: issuesMaylanh1
+                                                      .entries
+                                                      .map(
+                                                        (e) => ListTile(
+                                                          contentPadding:
+                                                              EdgeInsets.zero,
+                                                          minVerticalPadding: 0,
+                                                          leading: Checkbox(
+                                                            value: e.value,
+                                                            checkColor:
+                                                                Colors.white,
+                                                            // shape: RoundedRectangleBorder(
+                                                            //     borderRadius:
+                                                            //         BorderRadius.circular(
+                                                            //             10)),
+                                                            onChanged:
+                                                                (value) =>
+                                                                    setState(
+                                                              () => issuesMaylanh1[
+                                                                      e.key] =
+                                                                  value!,
+                                                            ),
+                                                          ),
+                                                          title: Text(
+                                                            e.key,
+                                                            style: h6.copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 195,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: issuesMaylanh2
+                                                      .entries
+                                                      .map(
+                                                        (e) => ListTile(
+                                                          leading: Checkbox(
+                                                            value: e.value,
+                                                            checkColor:
+                                                                Colors.white,
+                                                            // shape: RoundedRectangleBorder(
+                                                            //     borderRadius:
+                                                            //         BorderRadius.circular(
+                                                            //             10)),
+                                                            onChanged:
+                                                                (value) =>
+                                                                    setState(
+                                                              () => issuesMaylanh2[
+                                                                      e.key] =
+                                                                  value!,
+                                                            ),
+                                                          ),
+                                                          title: Text(
+                                                            e.key,
+                                                            style: h6.copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                              Visibility(
+                                visible: issuesTivi2['Vấn đề khác']!,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  child: TextFormField(
+                                    decoration: const InputDecoration(
+                                      label: Text(
+                                        'Vấn đề khác',
+                                        style: h6,
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                               Visibility(
-                                visible: issues2['Vấn đề khác']!,
+                                visible: issuesMaylanh2['Vấn đề khác']!,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  child: TextFormField(
+                                    decoration: const InputDecoration(
+                                      label: Text(
+                                        'Vấn đề khác',
+                                        style: h6,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: issuesTulanh2['Vấn đề khác']!,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 20,

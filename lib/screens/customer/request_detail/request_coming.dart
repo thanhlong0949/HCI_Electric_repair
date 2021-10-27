@@ -1,6 +1,6 @@
 import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
-import 'package:elect_repair/screens/customer/request_detail/request_coming.dart';
+import 'package:elect_repair/screens/customer/request/customer_request.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/cancel_dialog.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/coming_status.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/request_status.dart';
@@ -10,91 +10,60 @@ import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
 
-class RequestDetail extends StatefulWidget {
-  const RequestDetail(
-      {Key? key, required this.isHistory, required this.isCusRequest})
+class ComingRequest extends StatefulWidget {
+  const ComingRequest(
+      {Key? key, required this.isHistory, required this.isComing})
       : super(key: key);
   final bool isHistory;
-  final bool isCusRequest;
+  final bool isComing;
   @override
-  State<RequestDetail> createState() => _RequestDetailState();
+  State<ComingRequest> createState() => _ComingRequestState();
 }
 
-class _RequestDetailState extends State<RequestDetail> {
+class _ComingRequestState extends State<ComingRequest> {
   bool isShowMap = false;
-  late bool isCustRequest;
-  late bool isComing = false;
+  late bool isComing;
   @override
   void initState() {
     super.initState();
-    isCustRequest = widget.isCusRequest;
+    isComing = widget.isComing;
   }
 
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-    if (isCustRequest) {
-      Future.delayed(const Duration(milliseconds: 10000)).then((_) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Center(child: Text('Đã tìm thấy thợ sửa chữa')),
-            content: SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [Icon(Icons.person), Text('Lê Thị Bưởi')],
-              ),
+    Future.delayed(const Duration(milliseconds: 15000)).then((_) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Center(child: Text('Cập nhật')),
+          content: SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [Icon(Icons.check), Text('Hoàn tất sửa chữa')],
             ),
           ),
-        );
-      });
-      Future.delayed(const Duration(milliseconds: 15000)).then((_) {
-        isCustRequest = false;
-        isComing = true;
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                const RequestDetail(isHistory: false, isCusRequest: false)));
-      });
-      Future.delayed(const Duration(milliseconds: 18000)).then((_) {
-        isCustRequest = false;
-        isComing = true;
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Center(child: Text('Cập nhật')),
-            content: SizedBox(
-              height: 60,
-              child: Column(
-                children: [
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [Icon(Icons.person), Text('Lê Thị Bưởi')],
-                    ),
-                  ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [Icon(Icons.check), Text('Đã đến nơi')],
-                    ),
-                  ),
-                ],
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green.shade400,
+                onPrimary: Colors.black,
               ),
+              child: const Text(
+                "Xác nhận",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => const CustomerRequest()),
+                    (route) => false);
+              },
             ),
-          ),
-        );
-      });
-      Future.delayed(const Duration(milliseconds: 20000)).then((_) {
-        isCustRequest = false;
-        isComing = false;
-
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const ComingRequest(
-                  isHistory: false,
-                  isComing: true,
-                )));
-      });
-    }
+          ],
+        ),
+      );
+    });
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -103,10 +72,10 @@ class _RequestDetailState extends State<RequestDetail> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                   child: TopNavigationBar(
-                    isCusRequest: widget.isCusRequest,
+                    isCusRequest: false,
                   ),
                 ),
                 Expanded(
@@ -131,12 +100,12 @@ class _RequestDetailState extends State<RequestDetail> {
                         (!widget.isHistory && !isComing)
                             ? RequestStatus(
                                 isHistory: widget.isHistory,
-                                isCusRequest: widget.isCusRequest,
+                                isCusRequest: false,
                               )
                             : isComing
                                 ? ComingStatus(
                                     isHistory: widget.isHistory,
-                                    isCusRequest: isCustRequest)
+                                    isCusRequest: false)
                                 : const SizedBox.shrink(),
                         //!Chi tiết yêu cầu
                         Padding(
@@ -216,81 +185,69 @@ class _RequestDetailState extends State<RequestDetail> {
                                   ],
                                 ),
                               ),
-                              !widget.isCusRequest
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Thợ sửa chữa: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Lê Thị Bưởi',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
-                              !widget.isCusRequest
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Thời gian nhận sửa chữa: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          '20:17 - 18/10/2021',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
-                              widget.isHistory
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Trạng thái: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Đã hoàn thành',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Thợ sửa chữa: ',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Lê Thị Bưởi',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Thời gian nhận sửa chữa: ',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '20:17 - 18/10/2021',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.start,
+                              //   crossAxisAlignment: CrossAxisAlignment.center,
+                              //   children: [
+                              //     Text(
+                              //       'Trạng thái: ',
+                              //       style: h6.copyWith(
+                              //         color: Colors.black,
+                              //         height: 1.5,
+                              //         fontWeight: FontWeight.bold,
+                              //       ),
+                              //     ),
+                              //     Text(
+                              //       'Đã hoàn thành',
+                              //       style: h6.copyWith(
+                              //         color: Colors.black,
+                              //         height: 1.5,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -299,96 +256,61 @@ class _RequestDetailState extends State<RequestDetail> {
                         ),
 
                         //!Bản đồ
-                        Center(
-                          child: (!widget.isCusRequest && !widget.isHistory)
-                              ? InkWell(
-                                  onTap: () {
-                                    setState(() => isShowMap = !isShowMap);
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TrackMap()));
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 260,
-                                    margin: const EdgeInsets.only(
-                                        top: 15, bottom: 5),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: primaryLightColor,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          offset: Offset.zero,
-                                          blurRadius: 3,
-                                        )
-                                      ],
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          isShowMap
-                                              ? 'Ẩn hành trình của thợ sửa chữa  '
-                                              : 'Xem hành trình của thợ sửa chữa  ',
-                                          style: h6.copyWith(
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        Icon(
-                                          isShowMap
-                                              ? Icons.location_off_outlined
-                                              : Icons.location_pin,
-                                          size: 16,
-                                          color: isShowMap
-                                              ? primaryColor
-                                              : Colors.blue,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              : widget.isCusRequest
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                            width: 200,
-                                            child: LinearProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Colors.orange),
-                                              backgroundColor:
-                                                  Color(0xFF999999),
-                                            ),
-                                          ),
-                                          MaterialButton(
-                                            color: Colors.orange.shade100,
-                                            child: const Text(
-                                              "Hủy yêu cầu",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      const CancelDialog());
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : null,
-                        ),
+                        // Center(
+                        //   child: (!widget.isHistory)
+                        //       ? InkWell(
+                        //           onTap: () {
+                        //             setState(() => isShowMap = !isShowMap);
+                        //             Navigator.of(context).push(
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) =>
+                        //                         const TrackMap()));
+                        //           },
+                        //           child: Container(
+                        //             height: 40,
+                        //             width: 260,
+                        //             margin: const EdgeInsets.only(
+                        //                 top: 15, bottom: 5),
+                        //             alignment: Alignment.center,
+                        //             decoration: BoxDecoration(
+                        //               color: primaryLightColor,
+                        //               boxShadow: [
+                        //                 BoxShadow(
+                        //                   color: Colors.black.withOpacity(0.3),
+                        //                   offset: Offset.zero,
+                        //                   blurRadius: 3,
+                        //                 )
+                        //               ],
+                        //             ),
+                        //             child: Row(
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.center,
+                        //               crossAxisAlignment:
+                        //                   CrossAxisAlignment.center,
+                        //               children: [
+                        //                 Text(
+                        //                   isShowMap
+                        //                       ? 'Ẩn hành trình của thợ sửa chữa  '
+                        //                       : 'Xem hành trình của thợ sửa chữa  ',
+                        //                   style: h6.copyWith(
+                        //                     color: Colors.black54,
+                        //                   ),
+                        //                 ),
+                        //                 Icon(
+                        //                   isShowMap
+                        //                       ? Icons.location_off_outlined
+                        //                       : Icons.location_pin,
+                        //                   size: 16,
+                        //                   color: isShowMap
+                        //                       ? primaryColor
+                        //                       : Colors.blue,
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         )
+                        //       : null,
+                        // ),
 
                         //!Thiết bị và vấn đề
                         Padding(

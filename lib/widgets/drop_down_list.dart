@@ -3,18 +3,24 @@ import 'package:elect_repair/config/themes.dart';
 import 'package:flutter/material.dart';
 
 class DropdownList extends StatelessWidget {
-  const DropdownList({Key? key, required this.list, required this.hint})
+  const DropdownList(
+      {Key? key, required this.list, required this.hint, this.onChange = null})
       : super(key: key);
   final List<String> list;
   final String hint;
+  final Function({required String selectedItem})? onChange;
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
         child: DropdownSearch<String>(
           mode: Mode.MENU,
           showSelectedItems: true,
-          selectedItem: list[0],
+          selectedItem: list[1],
           items: list,
+          onChanged: (selectedItem) {
+            print(selectedItem);
+            onChange!.call(selectedItem: selectedItem!);
+          },
           dropdownSearchDecoration: InputDecoration(
             labelStyle: h6,
             hintText: "Chọn " + hint,

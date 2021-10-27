@@ -40,7 +40,7 @@ class _HistoryRequestState extends State<HistoryRequest> {
                 children: [
                   RoundedInputField(
                     icon: const IconData(0xe567, fontFamily: 'MaterialIcons'),
-                    hintText: "Search",
+                    hintText: "Tìm theo loại thiết bị",
                     onChanged: (value) => {},
                   ),
                   SizedBox(

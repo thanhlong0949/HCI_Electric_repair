@@ -281,8 +281,7 @@ class CustomerRequest extends StatelessWidget {
                             ),
                             children: const [
                               TextSpan(
-                                  text:
-                                      'Đang chờ thợ sửa chữa chấp thuận yêu cầu sửa chữa',
+                                  text: 'Đang chờ thợ sửa chữa chấp thuận',
                                   style:
                                       TextStyle(fontWeight: FontWeight.normal))
                             ],

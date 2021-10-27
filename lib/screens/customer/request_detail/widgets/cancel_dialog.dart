@@ -13,6 +13,7 @@ class CancelDialog extends StatefulWidget {
 class _CancelDialogState extends State<CancelDialog> {
   Map<String, bool> issues2 = {
     'Thiết bị hoạt động lại': false,
+    'Đang bận': false,
     'Chờ quá lâu': false,
     'Vấn đề khác': false,
   };
@@ -83,7 +84,7 @@ class _CancelDialogState extends State<CancelDialog> {
                   color: Colors.red,
                 )),
             child: const Text(
-              "Hủy",
+              "Quay lại",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             onPressed: () {
@@ -96,7 +97,7 @@ class _CancelDialogState extends State<CancelDialog> {
               onPrimary: Colors.black,
             ),
             child: const Text(
-              "Xác nhận",
+              "Hủy yêu cầu",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             onPressed: () {
