@@ -2,20 +2,24 @@ import 'package:elect_repair/config/paths.dart';
 import 'package:elect_repair/config/themes.dart';
 import 'package:elect_repair/screens/customer/request_detail/request_coming.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/cancel_dialog.dart';
-import 'package:elect_repair/screens/customer/request_detail/widgets/coming_status.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/request_status.dart';
 import 'package:elect_repair/screens/customer/request_detail/widgets/top_navigation_bar.dart';
 import 'package:elect_repair/screens/customer/tracking/tracking_repair.dart';
 import 'package:elect_repair/widgets/bottom_navigation_bar.dart';
 import 'package:elect_repair/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RequestDetail extends StatefulWidget {
   const RequestDetail(
-      {Key? key, required this.isHistory, required this.isCusRequest})
+      {Key? key,
+      required this.isHistory,
+      required this.isCusRequest,
+      this.selectedItem})
       : super(key: key);
   final bool isHistory;
   final bool isCusRequest;
+  final String? selectedItem;
   @override
   State<RequestDetail> createState() => _RequestDetailState();
 }
@@ -34,49 +38,186 @@ class _RequestDetailState extends State<RequestDetail> {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     if (isCustRequest) {
-      Future.delayed(const Duration(milliseconds: 10000)).then((_) {
+      //!Đã tìm thấy thợ sửa chữa
+      Future.delayed(const Duration(seconds: 2)).then((_) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Center(child: Text('Đã tìm thấy thợ sửa chữa')),
-            content: SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [Icon(Icons.person), Text('Lê Thị Bưởi')],
+            title: Center(
+              child: Text(
+                'Đã tìm thấy thợ sửa chữa',
+                style: h5.copyWith(
+                  fontStyle: FontStyle.italic,
+                  color: Colors.black,
+                  fontSize: 12,
+                ),
               ),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  backgroundColor: primaryColor,
+                  radius: 30,
+                  child: CircleAvatar(
+                    radius: 28,
+                    backgroundImage: AssetImage(imagePath + repairGirlPNG),
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Lê Thị Bưởi',
+                        style: h5.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          RatingBar.builder(
+                            initialRating: 4.5,
+                            minRating: 1,
+                            itemSize: 12,
+                            ignoreGestures: true,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            unratedColor: Colors.amber[100],
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              size: 2,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) => {},
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            '4.5',
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         );
       });
-      Future.delayed(const Duration(milliseconds: 15000)).then((_) {
+      Future.delayed(const Duration(seconds: 4)).then((_) {
         isCustRequest = false;
         isComing = true;
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                const RequestDetail(isHistory: false, isCusRequest: false)));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => RequestDetail(
+              isHistory: false,
+              isCusRequest: false,
+              selectedItem: widget.selectedItem,
+            ),
+          ),
+        );
       });
-      Future.delayed(const Duration(milliseconds: 18000)).then((_) {
+      //
+      Future.delayed(const Duration(seconds: 6)).then((_) {
         isCustRequest = false;
         isComing = true;
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Center(child: Text('Cập nhật')),
+            title: Center(
+              child: Text(
+                'Cập nhật',
+                style: h4.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
             content: SizedBox(
-              height: 60,
+              height: 110,
               child: Column(
                 children: [
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [Icon(Icons.person), Text('Lê Thị Bưởi')],
+                  Center(
+                    child: Text(
+                      'Thợ sửa chữa đã đến nơi và sẵn sàng \nđễ bắt đầu sửa chữa thiết bị của bạn',
+                      style: h5.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [Icon(Icons.check), Text('Đã đến nơi')],
-                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CircleAvatar(
+                        backgroundColor: primaryColor,
+                        radius: 30,
+                        child: CircleAvatar(
+                          radius: 28,
+                          backgroundImage:
+                              AssetImage(imagePath + repairGirlPNG),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Lê Thị Bưởi',
+                              style: h5.copyWith(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                RatingBar.builder(
+                                  initialRating: 4.5,
+                                  minRating: 1,
+                                  itemSize: 12,
+                                  ignoreGestures: true,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  unratedColor: Colors.amber[100],
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    size: 2,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) => {},
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  '4.5',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -84,15 +225,115 @@ class _RequestDetailState extends State<RequestDetail> {
           ),
         );
       });
-      Future.delayed(const Duration(milliseconds: 20000)).then((_) {
+      Future.delayed(const Duration(seconds: 66666)).then((_) {
+        isCustRequest = false;
+        isComing = true;
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Center(
+              child: Text(
+                'Cập nhật',
+                style: h4.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            content: SizedBox(
+              height: 110,
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      'Thợ sửa chữa đã đến nơi và sẵn sàng \nđễ bắt đầu sửa chữa thiết bị của bạn',
+                      style: h5.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CircleAvatar(
+                        backgroundColor: primaryColor,
+                        radius: 30,
+                        child: CircleAvatar(
+                          radius: 28,
+                          backgroundImage:
+                              AssetImage(imagePath + repairGirlPNG),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Lê Thị Bưởi',
+                              style: h5.copyWith(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                RatingBar.builder(
+                                  initialRating: 4.5,
+                                  minRating: 1,
+                                  itemSize: 12,
+                                  ignoreGestures: true,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  unratedColor: Colors.amber[100],
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    size: 2,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) => {},
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  '4.5',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+      Future.delayed(const Duration(seconds: 88888)).then((_) {
         isCustRequest = false;
         isComing = false;
 
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (context) => const ComingRequest(
-                  isHistory: false,
-                  isComing: true,
-                )));
+              isHistory: false,
+              isComing: true,
+            ),
+          ),
+        );
       });
     }
     return Scaffold(
@@ -134,167 +375,358 @@ class _RequestDetailState extends State<RequestDetail> {
                                 isCusRequest: widget.isCusRequest,
                               )
                             : isComing
-                                ? ComingStatus(
+                                ? RequestStatus(
                                     isHistory: widget.isHistory,
                                     isCusRequest: isCustRequest)
                                 : const SizedBox.shrink(),
-                        //!Chi tiết yêu cầu
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 0, left: 15),
-                          child: Text(
-                            'Chi tiết yêu cầu',
-                            style: h5.copyWith(fontWeight: FontWeight.bold),
+                        Visibility(
+                          visible: isCustRequest,
+                          child: Container(
+                            padding: const EdgeInsets.all(10.0),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Đang tìm yêu cầu sửa chữa',
+                                  style: h5.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    color: lightGrey,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                  width: 200,
+                                  child: LinearProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color(0xFFFF5F38),
+                                    ),
+                                    backgroundColor: Color(0xFFFFC6B8),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            const CancelDialog());
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    width: 200,
+                                    margin: const EdgeInsets.only(
+                                      top: 10,
+                                    ),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      gradient: const LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment(
+                                          0.8,
+                                          0.0,
+                                        ), // 10% of the width, so there are ten blinds.
+                                        colors: [
+                                          Color(0xFFFF6D18),
+                                          Color(0xFFFD5549),
+                                        ], // red to yellow
+                                        tileMode: TileMode
+                                            .mirror, // repeats the gradient over the canvas
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.7),
+                                          offset: Offset.zero,
+                                          blurRadius: 3,
+                                        )
+                                      ],
+                                    ),
+                                    child: Text(
+                                      'Hủy yêu cầu',
+                                      style: h6.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 35),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Người yêu cầu: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Nguyễn Văn Quýt',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Thời gian yêu cầu: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.8,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    '04:16 - 18/10/2021',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      height: 1.8,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: 'Địa chỉ: ',
-                                  style: h6.copyWith(
-                                    color: Colors.black,
-                                    height: 1.8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        //!Chi tiết yêu cầu
+                        Visibility(
+                          visible: widget.isCusRequest,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(
+                              'Chi tiết yêu cầu',
+                              style: h5.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: widget.isCusRequest,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 35),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    TextSpan(
-                                      text:
-                                          'Số AB1 / đường C23, khu Công Nghệ Cao, phường Tân Phú, thành phố Thủ Đức, thành phố Hồ Chí Minh',
+                                    Text(
+                                      'Người yêu cầu: ',
                                       style: h6.copyWith(
                                         color: Colors.black,
-                                        height: 1.8,
-                                        fontWeight: FontWeight.normal,
+                                        height: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Nguyễn Văn Quýt',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.5,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              !widget.isCusRequest
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Thợ sửa chữa: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Thời gian yêu cầu: ',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '04:16 - 18/10/2021',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Địa chỉ: ',
+                                    style: h6.copyWith(
+                                      color: Colors.black,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            'Số AB1/C23, khu Công Nghệ Cao, phường \nTân Phú, Thủ Đức, thành phố Hồ Chí Minh',
+                                        style: h6.copyWith(
+                                          color: Colors.black,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                        Text(
-                                          'Lê Thị Bưởi',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                widget.isHistory
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Trạng thái: ',
+                                            style: h6.copyWith(
+                                              color: Colors.black,
+                                              height: 1.5,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
-                              !widget.isCusRequest
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Thời gian nhận sửa chữa: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
+                                          Text(
+                                            'Đã hoàn thành',
+                                            style: h6.copyWith(
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          '20:17 - 18/10/2021',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
+                                        ],
+                                      )
+                                    : Row(),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        //!Thông tin thợ sửa chữa
+                        Visibility(
+                          visible: !widget.isCusRequest,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(
+                              'Thông tin thợ sửa chữa',
+                              style: h5.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: !widget.isCusRequest,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 35),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                //!Avatar
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundColor: primaryColor,
+                                      radius: 26,
+                                      child: CircleAvatar(
+                                        radius: 24,
+                                        backgroundImage: AssetImage(
+                                            imagePath + repairGirlPNG),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    SizedBox(
+                                      height: 60,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Thợ sửa chữa: ',
+                                                style: h6.copyWith(
+                                                  color: Colors.black,
+                                                  height: 1.2,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Lê Thị Bưởi',
+                                                style: h6.copyWith(
+                                                  color: Colors.black,
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
-                              widget.isHistory
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Trạng thái: ',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.bold,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Đánh giá: ',
+                                                style: h6.copyWith(
+                                                  color: Colors.black,
+                                                  height: 1.2,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              RatingBar.builder(
+                                                initialRating: 4.5,
+                                                minRating: 1,
+                                                itemSize: 12,
+                                                ignoreGestures: true,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                unratedColor: Colors.amber[100],
+                                                itemBuilder: (context, _) =>
+                                                    const Icon(
+                                                  Icons.star,
+                                                  size: 2,
+                                                  color: Colors.amber,
+                                                ),
+                                                onRatingUpdate: (rating) => {},
+                                              ),
+                                              const SizedBox(width: 5),
+                                              const Text(
+                                                '4.5',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        Text(
-                                          'Đã hoàn thành',
-                                          style: h6.copyWith(
-                                            color: Colors.black,
-                                            height: 1.5,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Điện thoại liên hệ: ',
+                                                style: h6.copyWith(
+                                                  color: Colors.black,
+                                                  height: 1.2,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                '0901606999',
+                                                style: h6.copyWith(
+                                                  color: Colors.black,
+                                                  height: 1.2,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  : Row(),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                            ],
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Thời gian nhận sửa chữa: ',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '20:17 - 18/10/2021',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
 
@@ -303,7 +735,6 @@ class _RequestDetailState extends State<RequestDetail> {
                           child: (!widget.isCusRequest && !widget.isHistory)
                               ? InkWell(
                                   onTap: () {
-                                    setState(() => isShowMap = !isShowMap);
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
@@ -332,62 +763,21 @@ class _RequestDetailState extends State<RequestDetail> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          isShowMap
-                                              ? 'Ẩn hành trình của thợ sửa chữa  '
-                                              : 'Xem hành trình của thợ sửa chữa  ',
+                                          'Xem hành trình của thợ sửa chữa  ',
                                           style: h6.copyWith(
                                             color: Colors.black54,
                                           ),
                                         ),
-                                        Icon(
-                                          isShowMap
-                                              ? Icons.location_off_outlined
-                                              : Icons.location_pin,
+                                        const Icon(
+                                          Icons.location_pin,
                                           size: 16,
-                                          color: isShowMap
-                                              ? primaryColor
-                                              : Colors.blue,
+                                          color: Colors.blue,
                                         ),
                                       ],
                                     ),
                                   ),
                                 )
-                              : widget.isCusRequest
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                            width: 200,
-                                            child: LinearProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Colors.orange),
-                                              backgroundColor:
-                                                  Color(0xFF999999),
-                                            ),
-                                          ),
-                                          MaterialButton(
-                                            color: Colors.orange.shade100,
-                                            child: const Text(
-                                              "Hủy yêu cầu",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      const CancelDialog());
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : null,
+                              : null,
                         ),
 
                         //!Thiết bị và vấn đề
@@ -480,24 +870,24 @@ class _RequestDetailState extends State<RequestDetail> {
                               const SizedBox(
                                 height: 3,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Vấn đề: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Vấn đề: ',
+                                  style: h6.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
-                                    'Hình ảnh chập chờn không ổn định, ánh \nsáng màn hình bị yếu',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          'Hình ảnh chập chờn không ổn định, ánh \nsáng màn hình bị yếu',
+                                      style: h6.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 3,
@@ -506,24 +896,27 @@ class _RequestDetailState extends State<RequestDetail> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Mô tả: ',
-                                    style: h6.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      'Sau khi khởi động thiết bị và chọn kênh truyền hình thì khoảng 5-10 giây sau màn hình sẽ bị sọc dưa và chập chờn làm chất lượng xem bị giảm',
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Mô tả: ',
                                       style: h6.copyWith(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              'Sau khi khởi động thiết bị và chọn kênh \ntruyền hình thì khoảng 5-10 giây sau màn hình sẽ \nbị sọc dưa và chập chờn giảm chất lượng xem',
+                                          style: h6.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-
                               //!
                               Center(
                                 child: Container(
@@ -545,7 +938,10 @@ class _RequestDetailState extends State<RequestDetail> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
                                     child: Image.asset(
-                                      imagePath + tiviErrorPNG,
+                                      imagePath +
+                                          (widget.selectedItem == 'Tủ lạnh'
+                                              ? tuLanhErrorPNG
+                                              : tiviErrorPNG),
                                       height: _size.height * 0.28,
                                       fit: BoxFit.cover,
                                     ),
@@ -557,7 +953,7 @@ class _RequestDetailState extends State<RequestDetail> {
                                   '(Hình ảnh thiết bị)',
                                   style: h6.copyWith(
                                     color: primaryColor,
-                                    height: 1.5,
+                                    height: 1,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -576,10 +972,11 @@ class _RequestDetailState extends State<RequestDetail> {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavigation(
-                  selectedIndex: 2,
-                )),
+              alignment: Alignment.bottomCenter,
+              child: BottomNavigation(
+                selectedIndex: 2,
+              ),
+            ),
             !widget.isHistory
                 ? Align(
                     alignment: Alignment.bottomRight,
@@ -587,7 +984,7 @@ class _RequestDetailState extends State<RequestDetail> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      margin: const EdgeInsets.only(bottom: 70, right: 10),
+                      margin: const EdgeInsets.only(bottom: 100, right: 10),
                       size: 40,
                       iconData: Icons.message,
                       iconColor: Colors.white,
@@ -603,7 +1000,7 @@ class _RequestDetailState extends State<RequestDetail> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      margin: const EdgeInsets.only(bottom: 120, right: 10),
+                      margin: const EdgeInsets.only(bottom: 150, right: 10),
                       size: 40,
                       iconData: Icons.call,
                       iconColor: Colors.white,
